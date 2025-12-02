@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이력서 | 김지연</title>
+    <!-- 폰트 및 아이콘 로드 -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* [스타일 시트 통합] 
+           이 코드가 있어야 디자인이 예쁘게 나옵니다. 
+           수정하지 마시고 그대로 두시면 됩니다.
+        */
+        :root {
+            --primary-bg: #FFFFFF;
+            --secondary-bg: #F9FAFB;
+            --text-main: #1F2937;
+            --text-sub: #6B7280;
+            --accent-blue: #3B82F6;
+            --border-color: #E5E7EB;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            line-height: 1.6;
+            color: var(--text-main);
+            background-color: var(--primary-bg);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a { text-decoration: none; color: inherit; }
+
+        /* 노션 스타일 컨테이너 */
+        .notion-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            background: #FFFFFF;
+        }
+
+        /* 헤더 영역 */
+        .notion-header {
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .notion-title {
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            letter-spacing: -0.04em;
+            line-height: 1.2;
+        }
+
+        .notion-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-sub);
+            font-weight: 600;
+        }
+
+        /* 연락처 아이콘 */
+        .notion-contact {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.25rem;
+            margin-top: 1.5rem;
+        }
+
+        .notion-contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            color: #4B5563;
+            font-size: 0.95rem;
+        }
+
+        .notion-contact-item i { color: var(--accent-blue); }
+        .notion-contact-item a:hover { color: var(--accent-blue); text-decoration: underline; }
+
+        /* 섹션 공통 */
+        .notion-section { margin-bottom: 3rem; }
+
+        .notion-section-title {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--text-main);
+        }
+
+        /* 카드 스타일 */
+        .notion-card {
+            background: var(--secondary-bg);
+            border: 1px solid var(--border-color);
+            padding: 1.75rem;
+            margin-bottom: 1.25rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .notion-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border-color: #D1D5DB;
+            transform: translateY(-2px);
+        }
+
+        .notion-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .notion-card-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--text-main);
+            letter-spacing: -0.02em;
+        }
+
+        .notion-card-period {
+            font-size: 0.875rem;
+            color: var(--text-sub);
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .notion-card-subtitle {
+            font-size: 1rem;
+            color: #4B5563;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .notion-card-description {
+            font-size: 0.95rem;
+            color: var(--text-sub);
+            line-height: 1.7;
+            font-weight: 500;
+        }
+
+        /* 배지(버튼) 스타일 */
+        .notion-badge {
+            display: inline-block;
+            background: #EFF6FF;
+            color: var(--accent-blue);
+            padding: 0.35rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-right: 0.4rem;
+            margin-bottom: 0.4rem;
+        }
+        .notion-badge.pink { background: #FDF2F8; color: #EC4899; }
+        .notion-badge.purple { background: #F5F3FF; color: #8B5CF6; }
+        .notion-badge.green { background: #F0FDFA; color: #14B8A6; }
+        .notion-badge.orange { background: #FFF7ED; color: #EA580C; }
+        .notion-badge.gray { background: #F3F4F6; color: #4B5563; }
+        .notion-badge.red { background: #FEF2F2; color: #DC2626; }
+
+        /* 리스트 스타일 */
+        .notion-list {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 0.5rem;
+        }
+
+        .notion-list-item {
+            padding: 0.4rem 0;
+            padding-left: 1.25rem;
+            position: relative;
+            font-weight: 500;
+            color: #4B5563;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .notion-list-item::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--accent-blue);
+            font-weight: 900;
+            font-size: 1.2rem;
+            line-height: 1.5;
+        }
+
+        /* 타임라인 (경력) */
+        .notion-timeline {
+            position: relative;
+            padding-left: 2rem;
+            border-left: 2px solid var(--border-color);
+            margin-left: 0.5rem;
+        }
+
+        .notion-timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .notion-timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2.4rem; /* 선 위로 점 위치 조정 */
+            top: 1.5rem;
+            width: 12px;
+            height: 12px;
+            background: var(--accent-blue);
+            border-radius: 50%;
+            border: 3px solid #FFFFFF;
+            box-shadow: 0 0 0 2px var(--accent-blue);
+            z-index: 1;
+        }
+
+        /* 구분선 */
+        .notion-divider {
+            height: 1px;
+            background: var(--border-color);
+            margin: 3rem 0;
+        }
+
+        /* Skills 그리드 */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .skill-category {
+            margin-bottom: 0.75rem;
+            font-size: 0.9rem;
+            color: var(--text-sub);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .skill-tag {
+            background: #FFFFFF;
+            color: #374151;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .skill-tag.highlight {
+            background: #EFF6FF;
+            color: #2563EB;
+            border-color: #BFDBFE;
+        }
+
+        /* 모바일 반응형 */
+        @media (max-width: 768px) {
+            .notion-container { padding: 2rem 1.25rem; }
+            .notion-title { font-size: 2.25rem; }
+            .notion-card-header { flex-direction: column; gap: 0.25rem; }
+            .notion-timeline { padding-left: 1.5rem; margin-left: 0; }
+            .notion-timeline-item::before { left: -1.95rem; top: 1.2rem;}
+        }
+
+        /* 푸터 */
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            color: var(--text-sub);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 4rem;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="notion-container">
+        <!-- 헤더 -->
+        <div class="notion-header">
+            <h1 class="notion-title">김지연</h1>
+            <p class="notion-subtitle">도자작가 · AI 작가 · 문화마케터 · 연구자</p>
+            
+            <div class="notion-contact">
+                <div class="notion-contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>이메일 주소 입력</span>
+                </div>
+                <div class="notion-contact-item">
+                    <i class="fas fa-phone"></i>
+                    <span>010-0000-0000</span>
+                </div>
+                <div class="notion-contact-item">
+                    <i class="fab fa-instagram"></i>
+                    <a href="https://instagram.com/soji_721" target="_blank">@soji_721</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 학력 -->
+        <div class="notion-section">
+            <h2 class="notion-section-title">
+                <span class="notion-section-icon">🎓</span>
+                학력
+            </h2>
+            
+            <div class="notion-card">
+                <div class="notion-card-header">
+                    <div>
+                        <div class="notion-card-title">성신여자대학교</div>
+                        <div class="notion-card-subtitle">미술대학 공예학부 도자전공</div>
+                    </div>
+                    <div class="notion-card-period">2013 - 2017</div>
+                </div>
+                <div class="notion-card-description">
+                    <b>졸업 작품 [조선 판타지아 : 흙으로 빚은 동화]</b><br>
+                    이적(異跡) 공간의 토템과 신상 시리즈 제작 (전통 조선 백자의 판타지적 재해석)
+                </div>
+            </div>
+
+            <div class="notion-card">
+                <div class="notion-card-header">
+                    <div>
+                        <div class="notion-card-title">문화예술행정경영 석박사과정 (진행 중)</div>
+                        <div class="notion-card-subtitle">팬덤경제학 연구 (Fandom Economics)</div>
+                    </div>
+                    <div class="notion-card-period">2023 - 현재</div>
+                </div>
+                <div class="notion-card-description">
+                    <p style="margin-bottom:0.5rem; font-weight:700; color:#4B5563;">[주요 연구 분야]</p>
+                    <ul class="notion-list" style="font-size: 0.95em;">
+                        <li class="notion-list-item">가상 페르소나의 진화와 공공·민간 영역의 구조적 융합</li>
+                        <li class="notion-list-item">관전 경제(Observer Economy)와 UA의 새로운 법칙</li>
+                        <li class="notion-list-item">지속가능한 엔터테인먼트 및 팬덤 소비행동분석</li>
+                        <li class="notion-list-item">버추얼 휴먼 및 AI 인플루언서의 공공기관 협업 영향력 분석</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="notion-divider"></div>
+
+        <!-- 경력 -->
+        <div class="notion-section">
+            <h2 class="notion-section-title">
+                <span class="notion-section-icon">💼</span>
+                주요 경력
+            </h2>
+
+            <div class="notion-timeline">
+                
+                <div class="notion-timeline-item">
+                    <div class="notion-card">
+                        <div class="notion-card-header">
+                            <div>
+                                <div class="notion-card-title">수원문화재단 / 관광육성팀</div>
+                                <div class="notion-card-subtitle">주임 (미디어아트 사업 운영)</div>
+                            </div>
+                            <div class="notion-card-period">2025.05.26 ~ 2025.11.30</div>
+                        </div>
+                        <ul class="notion-list">
+                            <li class="notion-list-item">수원화성 미디어아트 축제 온오프라인 홍보 마케팅 담당</li>
+                            <li class="notion-list-item">지역상권 활성화사업 '요새요즘행궁가게' 미디어아트 연계 특화마켓 프로젝트 전담</li>
+                        </ul>
+                        <div style="margin-top: 1rem;">
+                            <span class="notion-badge">미디어아트</span>
+                            <span class="notion-badge">지역활성화</span>
+                            <span class="notion-badge gray">계약만료</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="notion-timeline-item">
+                    <div class="notion-card">
+                        <div class="notion-card-header">
+                            <div>
+                                <div class="notion-card-title">성남시청 / 아동복지과</div>
+                                <div class="notion-card-subtitle">청년인턴</div>
+                            </div>
+                            <div class="notion-card-period">2024.04.01 ~ 2024.12.31</div>
+                        </div>
+                        <ul class="notion-list">
+                            <li class="notion-list-item">아동 발달 단계별 맞춤형 예술·공예 프로그램 개발 및 운영</li>
+                            <li class="notion-list-item">아동 안전·문화예술프로그램 현장 교육 관리 및 행정 업무</li>
+                        </ul>
+                        <div style="margin-top: 1rem;">
+                            <span class="notion-badge">문화예술교육</span>
+                            <span class="notion-badge">행정</span>
+                            <span class="notion-badge gray">계약만료</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="notion-timeline-item">
+                    <div class="notion-card">
+                        <div class="notion-card-header">
+                            <div>
+                                <div class="notion-card-title">오픈갤러리 (Open Gallery)</div>
+                                <div class="notion-card-subtitle">AI 작품 계약 작가</div>
+                            </div>
+                            <div class="notion-card-period">2024</div>
+                        </div>
+                        <div class="notion-card-description">
+                             오픈갤러리 소속 AI 아트 작가 및 아티스트 그룹 '얼룩(UL.LOOK)' 활동
+                        </div>
+                        <ul class="notion-list">
+                            <li class="notion-list-item">AI 생성형 아트 프로젝트 기획 및 NFT 발행</li>
+                            <li class="notion-list-item">K-POP 팬덤 AI 아트워크 프로젝트 &lt;가수 백호(BAEKHO) 시리즈&gt; 팬아트 작업</li>
+                        </ul>
+                        <div style="margin-top: 1rem;">
+                            <span class="notion-badge pink">AI아트</span>
+                            <span class="notion-badge pink">NFT</span>
+                            <span class="notion-badge pink">팬덤아트</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="notion-timeline-item">
+                    <div class="notion-card">
+                        <div class="notion-card-header">
+                            <div>
+                                <div class="notion-card-title">예술대학교 / 국제교류원</div>
+                                <div class="notion-card-subtitle">조교</div>
+                            </div>
+                            <div class="notion-card-period">2022.03.01 ~ 2024.03.01</div>
+                        </div>
+                        <ul class="notion-list">
+                            <li class="notion-list-item"><b>홍보팀 업무:</b> 학교 홈페이지·SNS 콘텐츠 제작, 카드뉴스·포스터·PPT 디자인</li>
+                            <li class="notion-list-item">지역산학 협력 프로젝트 수업 조교 및 기획·운영 업무</li>
+                            <li class="notion-list-item">외국인 유학생 대상 체험 프로그램 기획 및 유학생 관리·운영</li>
+                        </ul>
+                        <div style="margin-top: 1rem;">
+                            <span class="notion-badge">대학행정</span>
+                            <span class="notion-badge">홍보디자인</span>
+                            <span class="notion-badge gray">계약만료</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="notion-timeline-item">
+                    <div class="notion-card">
+                        <div class="notion-card-header">
+                            <div>
+                                <div class="notion-card-title">미술관이야기</div>
+                                <div class="notion-card-subtitle">아트스토리텔러</div>
+                            </div>
+                            <div class="notion-card-period">2021.01.23 ~ 2021.08.31</div>
+                        </div>
+                        <ul class="notion-list">
+                            <li class="notion-list-item">전시 체험 콘텐츠, 교육자료 기획 및 스토리텔링 해설 진행</li>
+                            <li class="notion-list-item">DDP 팀랩 미디어아트, 더현대서울 앤디워홀전, 세종문화회관 필립콜버트전 아동 프로그램 도슨트</li>
+                            <li class="notion-list-item">관람객 대상 문화예술 전달 및 온라인 체험 프로그램 운영</li>
+                        </ul>
+                        <div style="margin-top: 1rem;">
+                            <span class="notion-badge">도슨트</span>
+                            <span class="notion-badge">에듀케이터</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="notion-timeline-item">
+                    <div class="notion-card">
+                        <div class="notion-card-header">
+                            <div>
+                                <div class="notion-card-title">모랑공방 (Studio Morang)</div>
+                                <div class="notion-card-subtitle">대표 (Founder)</div>
+                            </div>
+                            <div class="notion-card-period">2019.10.16 ~ 2021.10.14</div>
+                        </div>
+                        <div class="notion-card-description">
+                             청년창업지원사업 선정 업사이클링 도예·금속 공방
+                        </div>
+                        <ul class="notion-list">
+                            <li class="notion-list-item"><b>청년창업지원사업 수행:</b> 관련 행정업무 처리 및 지원금 운용</li>
+                            <li class="notion-list-item"><b>교육 프로그램 개발:</b> 사금파리, 씨글래스 활용 업사이클링 공예 교육과정 개발 및 운영</li>
+                            <li class="notion-list-item"><b>출강 및 교육:</b> 평생학습원, 방과후학교 등 공공기관 성인/아동 대상 도예 교육</li>
+                            <li class="notion-list-item"><b>마케팅 및 판매:</b> 인스타그램/블로그 활용 홍보, 온라인 공동구매 기획·운영</li>
+                        </ul>
+                        <div style="margin-top: 1rem;">
+                            <span class="notion-badge green">청년창업</span>
+                            <span class="notion-badge green">교육개발</span>
+                            <span class="notion-badge green">운영관리</span>
+                            <span class="notion-badge gray">팬데믹 종료</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="notion-timeline-item">
+                    <div class="notion-card">
+                        <div class="notion-card-header">
+                            <div>
+                                <div class="notion-card-title">꾸우니공방 (Kku-uni)</div>
+                                <div class="notion-card-subtitle">대표 (Founder)</div>
+                            </div>
+                            <div class="notion-card-period">2018.06.01 ~ 2019.07.22</div>
+                        </div>
+                        <div class="notion-card-description">
+                            도자 소품 편집샵 및 온라인 스토어 운영
+                        </div>
+                        <ul class="notion-list">
+                            <li class="notion-list-item"><b>편집샵 운영 및 매출 증대:</b> 도자 소품 전문 온/오프라인 채널 구축</li>
+                            <li class="notion-list-item"><b>자체 상품(Goods) 개발:</b> 일러스트 기반 문구류(메모지/스티커 등) 디자인 및 판매</li>
+                            <li class="notion-list-item"><b>주문 제작(Custom Order):</b> 고객 맞춤형 도자기/굿즈 납품 및 관리</li>
+                            <li class="notion-list-item"><b>해외 소싱:</b> 일본 현지 출장을 통한 상품 직구 및 큐레이션</li>
+                        </ul>
+                        <div style="margin-top: 1rem;">
+                            <span class="notion-badge orange">1인창업</span>
+                            <span class="notion-badge orange">자체제작</span>
+                            <span class="notion-badge gray">이전/확장</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="notion-timeline-item">
+                    <div class="notion-card">
+                        <div class="notion-card-header">
+                            <div>
+                                <div class="notion-card-title">한국도자재단 레지던시</div>
+                                <div class="notion-card-subtitle">입주작가</div>
+                            </div>
+                            <div class="notion-card-period">2018.04.28 ~ 2019.05.31</div>
+                        </div>
+                        <ul class="notion-list">
+                            <li class="notion-list-item">제9회 경기세계도자비엔날레 국제도자워크숍 '메이킹네러티브' 참여작가</li>
+                            <li class="notion-list-item">창작 스튜디오 입주 및 작품 제작 지원 선정</li>
+                            <li class="notion-list-item">창조공방 입주작가 협력전시 및 프로젝트 기획·운영</li>
+                        </ul>
+                        <div style="margin-top: 1rem;">
+                            <span class="notion-badge purple">레지던시</span>
+                            <span class="notion-badge purple">전시</span>
+                            <span class="notion-badge purple">워크숍</span>
+                            <span class="notion-badge gray">계약만료</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="notion-divider"></div>
+
+        <!-- 보유 기술 (Skills) -->
+        <div class="notion-section">
+            <h2 class="notion-section-title">
+                <span class="notion-section-icon">🛠️</span>
+                보유 기술 (Skills)
+            </h2>
+            <div class="notion-card">
+                <div class="skills-grid">
+                    <div>
+                        <div class="skill-category">Design & AI Tools</div>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Rhino 3D</span>
+                            <span class="skill-tag">Clip Studio</span>
+                            <span class="skill-tag">LLM 활용 (Prompting)</span>
+                            <span class="skill-tag">Midjourney</span>
+                            <span class="skill-tag">Photoshop</span>
+                            <span class="skill-tag">Illustrator</span>
+                            <span class="skill-tag">CapCut</span>
+                            <span class="skill-tag">Notion</span>
+                            <span class="skill-tag">Discord</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="skill-category">Office & Admin</div>
+                        <div class="skill-tags">
+                            <span class="skill-tag">e나라도움</span>
+                            <span class="skill-tag">MS Office (Excel/PPT)</span>
+                            <span class="skill-tag">한글 (HWP)</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="skill-category">Craft & Education</div>
+                        <div class="skill-tags">
+                            <span class="skill-tag">도자 공예 전문 (물레/캐스팅/장식)</span>
+                            <span class="skill-tag">생활·응용 공예 (업사이클링/자개 등)</span>
+                            <span class="skill-tag">클레이아트</span>
+                            <span class="skill-tag">핸드드로잉</span>
+                            <span class="skill-tag highlight">전 연령 예술 교육 지도 (아동/성인)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="notion-divider"></div>
+
+        <!-- 자격증 -->
+        <div class="notion-section">
+            <h2 class="notion-section-title">
+                <span class="notion-section-icon">📜</span>
+                자격증
+            </h2>
+            <div class="notion-card">
+                <ul class="notion-list" style="margin-top: 0;">
+                    <li class="notion-list-item">
+                        <span style="font-weight: 700; color: #1F2937;">문화예술교육사 2급</span>
+                        <span style="color: #6B7280; font-size: 0.9em; margin-left: 0.5rem;">| 문화체육관광부 (2022.10.24)</span>
+                    </li>
+                    <li class="notion-list-item">
+                        <span style="font-weight: 700; color: #1F2937;">미술심리상담사</span>
+                        <span style="color: #6B7280; font-size: 0.9em; margin-left: 0.5rem;">| 한국심리교육협회 (2019.10.05)</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="notion-divider"></div>
+
+        <!-- 전시 경력 -->
+        <div class="notion-section">
+            <h2 class="notion-section-title">
+                <span class="notion-section-icon">🖼️</span>
+                전시 경력
+            </h2>
+            <div class="notion-card">
+                <div class="notion-card-title">2021 한국미술진흥원 특별기획전</div>
+                <div class="notion-card-description">특별상 수상 · 기획 전시 참여</div>
+            </div>
+
+            <div class="notion-card">
+                <div class="notion-card-title">2020 gamma young artist 국제공모전</div>
+                <div class="notion-card-description">온라인 전시 참여 및 입선</div>
+            </div>
+
+            <div class="notion-card">
+                <div class="notion-card-title">2018 한국도자재단 입주작가전 &lt;토유&gt;</div>
+                <div class="notion-card-description">이천 세라믹 창작센터 기획전</div>
+            </div>
+
+            <div class="notion-card">
+                <div class="notion-card-title">2017-2018 세라피아 창조공방 오픈스튜디오</div>
+                <div class="notion-card-description">작업 과정 공개 및 관객 참여형 전시</div>
+            </div>
+
+            <div class="notion-card">
+                <div class="notion-card-title">2017 한국도자재단 &lt;손의 언어&gt;</div>
+                <div class="notion-card-description">경인미술관 단체전</div>
+            </div>
+
+            <div class="notion-card">
+                <div class="notion-card-title">2016 한국여류도예가협회 공모전 수상작 전시</div>
+                <div class="notion-card-description">장려상 수상작 전시</div>
+            </div>
+        </div>
+
+        <div class="notion-divider"></div>
+
+        <!-- 강의 및 프로젝트 -->
+        <div class="notion-section">
+            <h2 class="notion-section-title">
+                <span class="notion-section-icon">🎤</span>
+                강의 및 프로젝트
+            </h2>
+
+            <div class="notion-card">
+                <div class="notion-card-header">
+                    <div class="notion-card-title">성남평생교육원 도자기공예 강사</div>
+                    <div class="notion-card-period">2019</div>
+                </div>
+                <div class="notion-card-description">
+                    일반 성인 대상 도자 성형 및 핸드페인팅 정규 과정
+                </div>
+            </div>
+
+            <div class="notion-card">
+                <div class="notion-card-header">
+                    <div class="notion-card-title">계원예술대학교 핸드페인팅 특강</div>
+                    <div class="notion-card-period">2018</div>
+                </div>
+                <div class="notion-card-description">
+                     고급도자장식의 역사와 기법 강의 (4주 과정)
+                </div>
+            </div>
+            
+            <div class="notion-card">
+                <div class="notion-card-header">
+                    <div class="notion-card-title">이천쌀축제 핸드페인팅 부스 운영</div>
+                    <div class="notion-card-period">2018</div>
+                </div>
+                <div class="notion-card-description">
+                    이천시청 주관 행사 체험 부스 기획 및 운영 (1개월)
+                </div>
+            </div>
+
+            <div class="notion-card">
+                <div class="notion-card-header">
+                    <div class="notion-card-title">서울 면일초/청량초 방과후 강사</div>
+                    <div class="notion-card-period">2018</div>
+                </div>
+                <div class="notion-card-description">
+                    초등학생 대상 창의 도자공예 교육 출강
+                </div>
+            </div>
+        </div>
+
+        <div class="notion-divider"></div>
+
+        <!-- 수상 -->
+        <div class="notion-section">
+            <h2 class="notion-section-title">
+                <span class="notion-section-icon">🏆</span>
+                수상 내역
+            </h2>
+
+            <div class="notion-card">
+                <div class="notion-card-header">
+                    <div class="notion-card-title">한국미술진흥원 특별기획전 특별상</div>
+                    <div class="notion-card-period">2021</div>
+                </div>
+            </div>
+
+            <div class="notion-card">
+                <div class="notion-card-header">
+                    <div class="notion-card-title">gamma young artist 국제공모전 입선</div>
+                    <div class="notion-card-period">2020</div>
+                </div>
+            </div>
+
+            <div class="notion-card">
+                <div class="notion-card-header">
+                    <div class="notion-card-title">한국여류도예가협회 공모전 장려상</div>
+                    <div class="notion-card-period">2016</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 푸터 -->
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2025 KIM JIYEON. All Rights Reserved.</p>
+        </div>
+    </footer>
+    
+</body>
+</html>
