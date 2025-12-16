@@ -3,575 +3,515 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>김지연 | Weverse O2O Planner 포트폴리오</title>
-    <meta name="description" content="팬덤을 매출로 전환하는 전문가. 51만 명 무사고 운영 | 재고 0원 커머스 | D-13 위기극복 | Weverse O2O PM">
+    <title>김지연 포트폴리오 | Weverse O2O Planner</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <style>
-        body { font-family: 'Pretendard', sans-serif; background: #0a0a0a; color: #fff; overflow-x: hidden; }
-        .text-weverse { background: linear-gradient(135deg, #00D695 0%, #3B82F6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .glass-card { background: rgba(255,255,255,0.03); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.08); border-radius: 24px; transition: all 0.3s ease; }
-        .glass-card:hover { transform: translateY(-8px); border-color: rgba(0,214,149,0.3); box-shadow: 0 0 30px rgba(0,214,149,0.2); }
-        .project-card { cursor: pointer; }
-        .project-card:hover img { transform: scale(1.05); }
-        .project-card img { transition: transform 0.3s ease; }
-        .fade-in { opacity: 0; transform: translateY(20px); transition: all 0.8s ease; }
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background-color: #0a0a0a;
+            color: #ffffff;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        
+        /* Brand Colors */
+        .text-weverse { 
+            background: linear-gradient(135deg, #00D695 0%, #3B82F6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .bg-weverse-gradient {
+            background: linear-gradient(135deg, #00D695 0%, #3B82F6 100%);
+        }
+        
+        /* Glass Card */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .glass-card:hover {
+            transform: translateY(-5px) scale(1.01);
+            border-color: rgba(0, 214, 149, 0.4);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .text-secondary { color: #A1A1AA; }
+        
+        .fade-in { opacity: 0; transform: translateY(30px); transition: all 1s cubic-bezier(0.16, 1, 0.3, 1); }
         .fade-in.visible { opacity: 1; transform: translateY(0); }
+
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-thumb { background: #00D695; }
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 9999; overflow-y: auto; }
-        .modal.active { display: block; }
-        .modal-content { max-width: 1400px; margin: 80px auto; padding: 40px; }
+        ::-webkit-scrollbar-track { background: #0a0a0a; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #00D695; }
+
+        #modal { transition: opacity 0.3s ease, visibility 0.3s ease; }
+        #modal.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+        #modal:not(.hidden) { opacity: 1; visibility: visible; pointer-events: auto; }
+
+        .proposal-badge {
+            background: rgba(0, 214, 149, 0.1);
+            border: 1px solid rgba(0, 214, 149, 0.3);
+            color: #00D695;
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
     </style>
 </head>
 <body>
-    <!-- Three.js Background -->
-    <div id="canvas-container" class="fixed top-0 left-0 w-full h-full -z-10 opacity-60"></div>
     
-    <!-- Header -->
-    <header class="fixed top-0 w-full px-6 py-4 flex justify-between items-center z-40 bg-[#0a0a0a]/80 backdrop-blur-md border-b border-white/5">
-        <div class="text-xl font-bold flex items-center gap-2">
-            <span class="w-3 h-3 rounded-full bg-gradient-to-r from-[#00D695] to-[#3B82F6]"></span>
+    <div id="canvas-container" class="fixed top-0 left-0 w-full h-full -z-10 opacity-50"></div>
+
+    <!-- Navigation -->
+    <header class="fixed top-0 w-full px-6 py-4 flex justify-between items-center z-40 bg-[#0a0a0a]/80 backdrop-blur-md border-b border-white/5 transition-all duration-300">
+        <div class="text-lg font-bold tracking-tight flex items-center gap-2 text-white">
+            <span class="w-2.5 h-2.5 rounded-full bg-weverse-gradient shadow-[0_0_10px_#00D695]"></span>
             KIM JIYEON
         </div>
-        <nav class="hidden md:flex gap-6 text-sm">
-            <a href="#social" class="hover:text-[#00D695] transition">SOCIAL</a>
-            <a href="#projects" class="hover:text-[#00D695] transition">PROJECTS</a>
-            <a href="#proposal" class="hover:text-[#00D695] transition">PROPOSAL</a>
-            <a href="#network" class="hover:text-[#00D695] transition">NETWORK</a>
-        </nav>
-        <a href="#contact" class="px-5 py-2.5 rounded-full bg-white text-black hover:bg-gradient-to-r hover:from-[#00D695] hover:to-[#3B82F6] hover:text-white transition-all text-sm font-bold">
-            <i data-lucide="mail" class="inline" width="16"></i> CONTACT
-        </a>
+        <div>
+            <a href="mailto:jiyeon.work.93@gmail.com" class="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 hover:bg-white hover:text-black transition-all text-xs font-bold uppercase tracking-wider">
+                이력서 다운로드 <i data-lucide="download" width="14"></i>
+            </a>
+        </div>
     </header>
 
-    <main class="pt-24">
-        <!-- HERO -->
-        <section class="min-h-[90vh] flex flex-col justify-center items-center text-center px-6">
-            <div class="inline-block px-5 py-2 rounded-full bg-white/5 border border-white/10 text-[#00D695] font-bold text-sm mb-8 fade-in">
-                ● Weverse O2O / 팬이벤트 기획 직무 지원
-            </div>
-            <h1 class="text-5xl md:text-8xl font-extrabold mb-8 fade-in">
-                팬심을 <span class="text-weverse">데이터</span>로 읽고<br>
-                <span class="text-weverse">매출</span>로 연결합니다
-            </h1>
-            <p class="text-xl text-gray-400 mb-12 fade-in">
-                51만 명 대규모 현장 무사고 운영. 재고 0원 커머스 전략. D-13 위기극복.<br>
-                <b class="text-white">위버스의 O2O 경험을 완성할 김지연입니다.</b>
-            </p>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl fade-in">
-                <div class="glass-card p-6 text-center">
-                    <div class="text-4xl font-extrabold mb-2">51만</div>
-                    <div class="text-xs text-[#00D695] font-bold">대규모 인파 무사고</div>
-                </div>
-                <div class="glass-card p-6 text-center">
-                    <div class="text-4xl font-extrabold mb-2">0원</div>
-                    <div class="text-xs text-[#00D695] font-bold">재고 리스크</div>
-                </div>
-                <div class="glass-card p-6 text-center">
-                    <div class="text-4xl font-extrabold mb-2">300%</div>
-                    <div class="text-xs text-[#3B82F6] font-bold">굿즈 ROI</div>
-                </div>
-                <div class="glass-card p-6 text-center">
-                    <div class="text-4xl font-extrabold mb-2">D-13</div>
-                    <div class="text-xs text-[#3B82F6] font-bold">위기 극복</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- SOCIAL SHOWCASE -->
-        <section id="social" class="py-32 px-6 md:px-24 bg-gradient-to-b from-black to-gray-900">
-            <div class="text-center mb-16 fade-in">
-                <div class="inline-block px-6 py-2 bg-[#00D695]/10 border border-[#00D695] rounded-full text-[#00D695] font-bold text-xs mb-6">
-                    📱 SOCIAL PROOF
-                </div>
-                <h2 class="text-4xl md:text-6xl font-bold mb-4">
-                    <span class="text-weverse">실제 프로젝트의 팬 반응과 성과</span>
-                </h2>
-            </div>
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
-                <!-- 1. 수원문화재단 Instagram Reel -->
-                <div class="glass-card overflow-hidden">
-                    <div class="aspect-[9/16]">
-                        <iframe src="https://www.instagram.com/reel/DPKuXoTDNEn/embed" class="w-full h-full" frameborder="0"></iframe>
-                    </div>
-                    <div class="p-4">
-                        <div class="text-xs text-[#00D695] font-bold">Instagram Reel</div>
-                        <div class="text-sm">5.5만 조회수 달성</div>
-                        <div class="text-xs text-gray-500 mt-1">0원 예산 · 무한대 ROI</div>
-                    </div>
-                </div>
-                
-                <!-- 2. 꼬질랜드 Twitter -->
-                <div class="glass-card overflow-hidden">
-                    <div class="aspect-[9/16] flex items-center justify-center bg-gray-900 p-4">
-                        <blockquote class="twitter-tweet" data-theme="dark">
-                            <a href="https://twitter.com/kochin2555/status/1990240192217981017"></a>
-                        </blockquote>
-                    </div>
-                    <div class="p-4">
-                        <div class="text-xs text-[#ff00aa] font-bold">Twitter</div>
-                        <div class="text-sm">꼬질랜드 공식</div>
-                        <div class="text-xs text-gray-500 mt-1">D-13 완성 · 95% 만족도</div>
-                    </div>
-                </div>
-                
-                <!-- 3. 돌쥬 Twitter -->
-                <div class="glass-card overflow-hidden">
-                    <div class="aspect-[9/16] flex items-center justify-center bg-gray-900 p-4">
-                        <blockquote class="twitter-tweet" data-theme="dark">
-                            <a href="https://twitter.com/donghoramic/status/953777199324184576"></a>
-                        </blockquote>
-                    </div>
-                    <div class="p-4">
-                        <div class="text-xs text-[#bd00ff] font-bold">Twitter</div>
-                        <div class="text-sm">돌쥬 공식</div>
-                        <div class="text-xs text-gray-500 mt-1">UGC · 0원 광고비</div>
-                    </div>
-                </div>
-                
-                <!-- 4. 모랑공방 Instagram -->
-                <div class="glass-card overflow-hidden">
-                    <div class="aspect-[9/16]">
-                        <iframe src="https://www.instagram.com/p/BjZOCCoHTiT/embed" class="w-full h-full" frameborder="0"></iframe>
-                    </div>
-                    <div class="p-4">
-                        <div class="text-xs text-[#ffae00] font-bold">Instagram</div>
-                        <div class="text-sm">모랑공방</div>
-                        <div class="text-xs text-gray-500 mt-1">3차 완판 · 재고 0원</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- IMPACT NUMBERS -->
-        <section class="py-32 px-6 md:px-24 bg-black">
-            <h2 class="text-4xl md:text-6xl font-bold mb-4 text-center">
-                <span class="text-weverse">IMPACT BY NUMBERS</span>
-            </h2>
-            <p class="text-center text-gray-400 mb-16">데이터로 증명하는 실행력</p>
+    <main class="pt-28">
+        
+        <!-- HERO SECTION -->
+        <section class="min-h-[85vh] flex flex-col justify-center items-center text-center px-6 relative">
             
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-24 max-w-7xl mx-auto fade-in">
-                <div class="glass-card p-8 text-center">
-                    <div class="text-5xl font-extrabold mb-2 text-weverse">510K</div>
-                    <div class="text-sm text-gray-400 mt-2">16일간 총 관람객 수</div>
-                    <div class="text-xs text-[#00D695] mt-1">무사고 운영 달성</div>
+            <div class="fade-in mb-6">
+                 <span class="text-[#00D695] text-xs font-bold tracking-[0.2em] uppercase border border-[#00D695]/30 px-3 py-1 rounded-full bg-[#00D695]/5">
+                    O2O Strategy & Planning
+                 </span>
+            </div>
+
+            <!-- 제목은 영어로 멋있게, 설명은 한국어로 확실하게 -->
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold leading-tight mb-8 tracking-tight fade-in">
+                From Fandom<br>
+                To <span class="text-weverse">Revenue</span>
+            </h1>
+            
+            <p class="text-lg md:text-xl text-secondary max-w-xl mb-12 leading-relaxed fade-in font-light">
+                51만 명의 트래픽을 통제하고, 재고 0원의 커머스를 설계합니다.<br>
+                <b class="text-white">데이터로 증명하는 위버스의 실전 기획자 김지연입니다.</b>
+            </p>
+
+            <!-- 핵심 숫자 (영문 라벨 + 한국어 설명 혼용으로 세련미 유지) -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-4xl fade-in">
+                <div class="glass-card p-6 text-center group cursor-default">
+                    <div class="text-3xl font-bold text-white mb-1 group-hover:text-[#00D695] transition-colors">510K</div>
+                    <div class="text-[10px] text-secondary uppercase tracking-widest font-semibold">Total Traffic</div>
                 </div>
-                <div class="glass-card p-8 text-center">
-                    <div class="text-5xl font-extrabold mb-2 text-weverse">55X</div>
-                    <div class="text-sm text-gray-400 mt-2">SNS 조회수 증가율</div>
-                    <div class="text-xs text-[#00D695] mt-1">1,000 → 55,000회</div>
+                <div class="glass-card p-6 text-center group cursor-default">
+                    <div class="text-3xl font-bold text-white mb-1 group-hover:text-[#00D695] transition-colors">Zero</div>
+                    <div class="text-[10px] text-secondary uppercase tracking-widest font-semibold">Risk & Complaints</div>
                 </div>
-                <div class="glass-card p-8 text-center">
-                    <div class="text-5xl font-extrabold mb-2 text-weverse">13일</div>
-                    <div class="text-sm text-gray-400 mt-2">만에 이벤트 완성</div>
-                    <div class="text-xs text-[#00D695] mt-1">정상 기간: 4주+</div>
+                <div class="glass-card p-6 text-center group cursor-default">
+                    <div class="text-3xl font-bold text-white mb-1 group-hover:text-[#3B82F6] transition-colors">300%</div>
+                    <div class="text-[10px] text-secondary uppercase tracking-widest font-semibold">Sales ROI</div>
                 </div>
-                <div class="glass-card p-8 text-center">
-                    <div class="text-5xl font-extrabold mb-2 text-weverse">95%</div>
-                    <div class="text-sm text-gray-400 mt-2">팬 만족도</div>
-                    <div class="text-xs text-[#00D695] mt-1">꼬질랜드 프로젝트</div>
+                <div class="glass-card p-6 text-center group cursor-default">
+                    <div class="text-3xl font-bold text-white mb-1 group-hover:text-[#3B82F6] transition-colors">13 Days</div>
+                    <div class="text-[10px] text-secondary uppercase tracking-widest font-semibold">Crisis Turnaround</div>
                 </div>
             </div>
 
-            <div class="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto fade-in">
-                <div class="glass-card p-8">
-                    <i data-lucide="shield-check" class="text-[#00D695] mb-4" width="40" height="40"></i>
-                    <h3 class="text-2xl font-bold mb-4">Crisis Management</h3>
-                    <div class="space-y-3 text-sm text-gray-400">
-                        <div class="flex justify-between"><span>우천 취소 민원 폭주</span><span class="text-[#00D695]">즉시 해결</span></div>
-                        <div class="flex justify-between"><span>소음 민원 경찰 출동</span><span class="text-[#00D695]">1~2일 해결</span></div>
-                        <div class="flex justify-between"><span>시스템 오류 대응</span><span class="text-[#00D695]">매출 누락 방지</span></div>
-                    </div>
+            <div class="mt-24 animate-pulse text-white/20">
+                <i data-lucide="chevrons-down" width="24"></i>
+            </div>
+        </section>
+
+        <!-- WHY ME -->
+        <section class="py-24 px-6 md:px-24">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-16 fade-in">
+                    <h2 class="text-2xl md:text-3xl font-bold">Why Weverse needs <span class="text-weverse">Me</span></h2>
                 </div>
 
-                <div class="glass-card p-8">
-                    <i data-lucide="trending-up" class="text-[#ff00aa] mb-4" width="40" height="40"></i>
-                    <h3 class="text-2xl font-bold mb-4">Growth Marketing</h3>
-                    <div class="space-y-3 text-sm text-gray-400">
-                        <div class="flex justify-between"><span>재단 SNS 팔로워</span><span class="text-[#ff00aa]">+36% 증가</span></div>
-                        <div class="flex justify-between"><span>평균 조회수</span><span class="text-[#ff00aa]">1K → 6K (6배)</span></div>
-                        <div class="flex justify-between"><span>최고 조회수</span><span class="text-[#ff00aa]">55,000회</span></div>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <!-- Card 1 -->
+                    <div class="glass-card p-8 fade-in flex flex-col items-center text-center hover:bg-white/5">
+                        <div class="w-12 h-12 bg-[#00D695]/10 rounded-full flex items-center justify-center mb-6 text-[#00D695] shadow-[0_0_15px_rgba(0,214,149,0.2)]">
+                            <i data-lucide="activity" width="24"></i>
+                        </div>
+                        <h3 class="text-lg font-bold mb-3 text-white">Scale Operation</h3>
+                        <p class="text-secondary text-sm leading-relaxed">
+                            수원문화재단 <b>51만 명 축제</b> 운영.<br>
+                            Weverse Con 급 대규모 인파 통제와<br>
+                            현장 리스크 관리 프로토콜을 보유했습니다.
+                        </p>
                     </div>
-                </div>
 
-                <div class="glass-card p-8">
-                    <i data-lucide="users" class="text-[#bd00ff] mb-4" width="40" height="40"></i>
-                    <h3 class="text-2xl font-bold mb-4">Fandom Strategy</h3>
-                    <div class="space-y-3 text-sm text-gray-400">
-                        <div class="flex justify-between"><span>모랑공방 Pre-order</span><span class="text-[#bd00ff]">3차 완판</span></div>
-                        <div class="flex justify-between"><span>재고 리스크</span><span class="text-[#bd00ff]">0원</span></div>
-                        <div class="flex justify-between"><span>꼬질랜드 만족도</span><span class="text-[#bd00ff]">95%</span></div>
+                    <!-- Card 2 -->
+                    <div class="glass-card p-8 fade-in flex flex-col items-center text-center hover:bg-white/5" style="transition-delay: 100ms;">
+                        <div class="w-12 h-12 bg-[#F472B6]/10 rounded-full flex items-center justify-center mb-6 text-[#F472B6] shadow-[0_0_15px_rgba(244,114,182,0.2)]">
+                            <i data-lucide="bar-chart-3" width="24"></i>
+                        </div>
+                        <h3 class="text-lg font-bold mb-3 text-white">Commerce Logic</h3>
+                        <p class="text-secondary text-sm leading-relaxed">
+                            모랑공방 운영 시 <b>재고율 0%</b> 달성.<br>
+                            팬덤의 RT(반응) 데이터를 구매 전환으로<br>
+                            연결하는 커머스 로직을 설계합니다.
+                        </p>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="glass-card p-8 fade-in flex flex-col items-center text-center hover:bg-white/5" style="transition-delay: 200ms;">
+                        <div class="w-12 h-12 bg-[#3B82F6]/10 rounded-full flex items-center justify-center mb-6 text-[#3B82F6] shadow-[0_0_15px_rgba(59,130,246,0.2)]">
+                            <i data-lucide="zap" width="24"></i>
+                        </div>
+                        <h3 class="text-lg font-bold mb-3 text-white">Fan Insight</h3>
+                        <p class="text-secondary text-sm leading-relaxed">
+                            12년 차 아이돌 팬 & 총대 출신.<br>
+                            '꼬질랜드' 위기를 놀이 문화로 승화시킨<br>
+                            <b>진짜 팬덤의 언어</b>를 구사합니다.
+                        </p>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- PROJECTS -->
-        <section id="projects" class="py-32 px-6 md:px-24 bg-gradient-to-b from-gray-900 to-black">
-            <h2 class="text-4xl md:text-6xl font-bold mb-16 text-center">
-                <span class="text-weverse">PROFESSIONAL EXPERIENCE</span>
-            </h2>
+        <section class="py-24 px-6 md:px-24 bg-black/20">
+            <div class="max-w-6xl mx-auto">
+                <div class="flex items-end justify-between mb-10 fade-in">
+                    <h2 class="text-3xl font-bold text-white">Selected Projects</h2>
+                </div>
 
-            <!-- 수원문화재단 -->
-            <div class="glass-card p-8 md:p-12 mb-12 project-card" onclick="openModal('suwon')">
-                <div class="flex flex-col md:flex-row gap-8 items-center">
-                    <img src="https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/suwon-festival-01.jpg" class="w-full md:w-1/2 rounded-xl" alt="수원문화재단">
-                    <div>
-                        <h3 class="text-3xl font-bold mb-4 text-[#00D695]">수원문화재단</h3>
-                        <p class="text-gray-400 mb-4">대규모 야외 축제 총괄 운영 | 51만 명 무사고 관리</p>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="px-3 py-1 bg-[#00D695]/20 border border-[#00D695] rounded-full text-xs">510,000명</span>
-                            <span class="px-3 py-1 bg-[#00D695]/20 border border-[#00D695] rounded-full text-xs">16일</span>
-                            <span class="px-3 py-1 bg-[#00D695]/20 border border-[#00D695] rounded-full text-xs">무사고</span>
-                            <span class="px-3 py-1 bg-[#00D695]/20 border border-[#00D695] rounded-full text-xs">SNS 55배</span>
+                <div class="space-y-8">
+                    
+                    <!-- 1. Suwon -->
+                    <div class="glass-card group cursor-pointer fade-in" onclick="openModal('suwon')">
+                        <div class="flex flex-col md:flex-row min-h-[300px]">
+                            <!-- Image Area -->
+                            <div class="md:w-5/12 relative overflow-hidden">
+                                <img src="https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/suwon-festival-01.jpg" alt="수원 축제" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-60 group-hover:opacity-100">
+                                <div class="absolute inset-0 bg-gradient-to-r from-[#0a0a0a]/80 to-transparent md:bg-gradient-to-t"></div>
+                                <div class="absolute bottom-6 left-6 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0">
+                                    <span class="flex items-center gap-2 text-white font-bold text-sm bg-black/50 backdrop-blur-md px-4 py-2 rounded-full border border-white/20">
+                                        상세 성과 보기 <i data-lucide="arrow-up-right" width="16"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <!-- Text Area -->
+                            <div class="md:w-7/12 p-8 md:p-10 flex flex-col justify-center relative">
+                                <div class="absolute top-8 right-8 text-white/10 group-hover:text-[#00D695]/20 transition-colors text-6xl font-black select-none">01</div>
+                                <div class="flex items-center gap-3 mb-3">
+                                    <span class="text-[#00D695] font-bold text-[10px] tracking-widest uppercase border border-[#00D695]/30 px-2 py-0.5 rounded">Crisis Management</span>
+                                    <span class="text-secondary text-xs">2025</span>
+                                </div>
+                                <h3 class="text-2xl md:text-3xl font-bold mb-3 text-white group-hover:text-[#00D695] transition-colors">Traffic Control: 51만 명의 위기</h3>
+                                <p class="text-secondary text-sm leading-relaxed mb-6">
+                                    예상치 못한 인파로 결제 시스템 마비. 개발팀 부재 상황에서 ChatGPT 로그 분석으로 1분 만에 원인을 규명하고, 우회 결제망을 구축하여 <b>매출 누락 0원</b>을 방어했습니다.
+                                </p>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <!-- 모랑공방 -->
-            <div class="glass-card p-8 md:p-12 mb-12 project-card" onclick="openModal('morang')">
-                <div class="flex flex-col md:flex-row-reverse gap-8 items-center">
-                    <img src="https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/morang-01.png" class="w-full md:w-1/2 rounded-xl" alt="모랑공방">
-                    <div>
-                        <h3 class="text-3xl font-bold mb-4 text-[#ffae00]">모랑공방</h3>
-                        <p class="text-gray-400 mb-4">팬덤 세라믹 브랜드 | 재고 0원 Pre-order 모델</p>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="px-3 py-1 bg-[#ffae00]/20 border border-[#ffae00] rounded-full text-xs">3차 완판</span>
-                            <span class="px-3 py-1 bg-[#ffae00]/20 border border-[#ffae00] rounded-full text-xs">6,000만원</span>
-                            <span class="px-3 py-1 bg-[#ffae00]/20 border border-[#ffae00] rounded-full text-xs">재고 0%</span>
-                            <span class="px-3 py-1 bg-[#ffae00]/20 border border-[#ffae00] rounded-full text-xs">ROI 300%</span>
+                    <!-- 2. Morang -->
+                    <div class="glass-card group cursor-pointer fade-in" onclick="openModal('morang')">
+                        <div class="flex flex-col md:flex-row min-h-[300px]">
+                            <div class="md:w-5/12 relative overflow-hidden">
+                                <img src="https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/morang-01.png" alt="모랑공방" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-60 group-hover:opacity-100">
+                                <div class="absolute inset-0 bg-gradient-to-r from-[#0a0a0a]/80 to-transparent"></div>
+                                <div class="absolute bottom-6 left-6 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0">
+                                    <span class="flex items-center gap-2 text-white font-bold text-sm bg-black/50 backdrop-blur-md px-4 py-2 rounded-full border border-white/20">
+                                        상세 성과 보기 <i data-lucide="arrow-up-right" width="16"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="md:w-7/12 p-8 md:p-10 flex flex-col justify-center relative">
+                                <div class="absolute top-8 right-8 text-white/10 group-hover:text-[#F472B6]/20 transition-colors text-6xl font-black select-none">02</div>
+                                <div class="flex items-center gap-3 mb-3">
+                                    <span class="text-[#F472B6] font-bold text-[10px] tracking-widest uppercase border border-[#F472B6]/30 px-2 py-0.5 rounded">Commerce Strategy</span>
+                                    <span class="text-secondary text-xs">2019 - 2021</span>
+                                </div>
+                                <h3 class="text-2xl md:text-3xl font-bold mb-3 text-white group-hover:text-[#F472B6] transition-colors">Zero Inventory: 완판의 알고리즘</h3>
+                                <p class="text-secondary text-sm leading-relaxed mb-6">
+                                    "굿즈는 타이밍입니다." RT 급상승 구간을 데이터로 포착해 '선주문(Pre-order)' 시스템 도입. 재고 리스크를 0%로 만들고 <b>300%의 ROI</b>를 달성했습니다.
+                                </p>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <!-- 꼬질랜드 -->
-            <div class="glass-card p-8 md:p-12 mb-12 project-card" onclick="openModal('kkojil')">
-                <div class="flex flex-col md:flex-row gap-8 items-center">
-                    <img src="https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/kkojilland-01.jpg" class="w-full md:w-1/2 rounded-xl" alt="꼬질랜드">
-                    <div>
-                        <h3 class="text-3xl font-bold mb-4 text-[#ff00aa]">꼬질랜드</h3>
-                        <p class="text-gray-400 mb-4">버추얼 IP 이벤트 | D-13 위기를 기회로</p>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="px-3 py-1 bg-[#ff00aa]/20 border border-[#ff00aa] rounded-full text-xs">D-13</span>
-                            <span class="px-3 py-1 bg-[#ff00aa]/20 border border-[#ff00aa] rounded-full text-xs">환불 0건</span>
-                            <span class="px-3 py-1 bg-[#ff00aa]/20 border border-[#ff00aa] rounded-full text-xs">만족도 95%</span>
-                            <span class="px-3 py-1 bg-[#ff00aa]/20 border border-[#ff00aa] rounded-full text-xs">방문 200%↑</span>
+                    <!-- 3. Kkojil -->
+                    <div class="glass-card group cursor-pointer fade-in" onclick="openModal('kkojil')">
+                        <div class="flex flex-col md:flex-row min-h-[300px]">
+                            <div class="md:w-5/12 relative overflow-hidden">
+                                <img src="https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/kkojilland-01.jpg" alt="꼬질랜드" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-60 group-hover:opacity-100">
+                                <div class="absolute inset-0 bg-gradient-to-r from-[#0a0a0a]/80 to-transparent"></div>
+                                <div class="absolute bottom-6 left-6 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0">
+                                    <span class="flex items-center gap-2 text-white font-bold text-sm bg-black/50 backdrop-blur-md px-4 py-2 rounded-full border border-white/20">
+                                        상세 성과 보기 <i data-lucide="arrow-up-right" width="16"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="md:w-7/12 p-8 md:p-10 flex flex-col justify-center relative">
+                                <div class="absolute top-8 right-8 text-white/10 group-hover:text-[#3B82F6]/20 transition-colors text-6xl font-black select-none">03</div>
+                                <div class="flex items-center gap-3 mb-3">
+                                    <span class="text-[#3B82F6] font-bold text-[10px] tracking-widest uppercase border border-[#3B82F6]/30 px-2 py-0.5 rounded">Fandom Insight</span>
+                                    <span class="text-secondary text-xs">2024 (2 weeks)</span>
+                                </div>
+                                <h3 class="text-2xl md:text-3xl font-bold mb-3 text-white group-hover:text-[#3B82F6] transition-colors">Gamification: 위기를 놀이로</h3>
+                                <p class="text-secondary text-sm leading-relaxed mb-6">
+                                    주최자 잠적이라는 최악의 상황. 팬들의 '불안감'을 카지노 컨셉의 '베팅하는 재미'로 치환했습니다. 13일 만에 기획부터 실행까지 완수하여 <b>팬 만족도 95%</b>를 기록했습니다.
+                                </p>
+                            </div>
                         </div>
                     </div>
+
                 </div>
             </div>
+        </section>
 
-            <!-- 백호 AI 아트 -->
-            <div class="glass-card p-8 md:p-12 mb-12 project-card" onclick="openModal('baekho')">
-                <div class="flex flex-col md:flex-row-reverse gap-8 items-center">
-                    <img src="https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/baekho-elevator-01.png" class="w-full md:w-1/2 rounded-xl" alt="백호 AI 아트">
-                    <div>
-                        <h3 class="text-3xl font-bold mb-4 text-[#bd00ff]">백호 AI 아트</h3>
-                        <p class="text-gray-400 mb-4">뉴이스트 백호 솔로 앨범 콘셉츄얼 아티스트</p>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="px-3 py-1 bg-[#bd00ff]/20 border border-[#bd00ff] rounded-full text-xs">4개 앨범</span>
-                            <span class="px-3 py-1 bg-[#bd00ff]/20 border border-[#bd00ff] rounded-full text-xs">12 작품</span>
-                            <span class="px-3 py-1 bg-[#bd00ff]/20 border border-[#bd00ff] rounded-full text-xs">AI 아티스트</span>
-                        </div>
+        <!-- SPECIAL PROPOSAL -->
+        <section class="py-24 px-6 md:px-24 bg-gradient-to-b from-[#0a0a0a] to-[#050505] relative overflow-hidden border-t border-white/5">
+            <div class="max-w-6xl mx-auto relative z-10 flex flex-col md:flex-row items-center gap-12 fade-in">
+                <div class="md:w-1/2">
+                    <div class="inline-block mb-4">
+                        <span class="proposal-badge flex items-center gap-2">
+                            <span class="w-1.5 h-1.5 bg-[#00D695] rounded-full animate-pulse"></span>
+                            CONFIDENTIAL
+                        </span>
                     </div>
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6 leading-tight text-white">
+                        Weverse by Fans 2.0:<br>
+                        <span class="text-weverse">차세대 C2C 마켓 제안</span>
+                    </h2>
+                    <p class="text-secondary mb-8 leading-relaxed">
+                        "팬들은 이미 비공식 시장(Grey Market)에서 지갑을 열고 있습니다."<br>
+                        재고 리스크 없는 <b>POD(Print on Demand)</b>와 <b>C2C 디자인 마켓</b>을 결합하여, 위버스가 이 트래픽을 공식 매출로 흡수하는 전략을 제안합니다.
+                    </p>
+                    <button class="group px-6 py-3 bg-white text-black font-bold rounded-lg hover:bg-[#00D695] hover:text-white transition-all flex items-center gap-3">
+                        제안서 전체 보기 <i data-lucide="file-text" width="18" class="group-hover:translate-x-1 transition-transform"></i>
+                    </button>
                 </div>
-            </div>
-
-            <!-- 추계예술대학교 -->
-            <div class="glass-card p-8 md:p-12 mb-12 project-card" onclick="openModal('university')">
-                <div class="flex flex-col md:flex-row gap-8 items-center">
-                    <img src="https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/university-artcafe-01.jpg" class="w-full md:w-1/2 rounded-xl" alt="추계예술대학교">
-                    <div>
-                        <h3 class="text-3xl font-bold mb-4 text-[#00ff9f]">추계예술대학교</h3>
-                        <p class="text-gray-400 mb-4">통합광고홍보 5학년 | 디지털 혁신 프로젝트</p>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="px-3 py-1 bg-[#00ff9f]/20 border border-[#00ff9f] rounded-full text-xs">학생회</span>
-                            <span class="px-3 py-1 bg-[#00ff9f]/20 border border-[#00ff9f] rounded-full text-xs">대학축제</span>
-                            <span class="px-3 py-1 bg-[#00ff9f]/20 border border-[#00ff9f] rounded-full text-xs">문화기획</span>
+                <div class="md:w-1/2 w-full">
+                    <div class="glass-card p-8 bg-white/5 border border-white/10 relative overflow-hidden">
+                        <!-- Decorative Abstract Chart -->
+                        <div class="absolute -right-10 -top-10 w-40 h-40 bg-weverse-gradient blur-[80px] opacity-20"></div>
+                        
+                        <div class="flex justify-between items-end mb-8">
+                            <div>
+                                <div class="text-sm text-secondary uppercase tracking-wider mb-1">Target Revenue</div>
+                                <div class="text-4xl font-bold text-white">150억+</div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-sm text-secondary uppercase tracking-wider mb-1">Margin</div>
+                                <div class="text-4xl font-bold text-[#00D695]">25%</div>
+                            </div>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between text-sm p-3 bg-white/5 rounded-lg border border-white/5">
+                                <span class="text-gray-300">Inventory Risk</span>
+                                <span class="font-bold text-[#3B82F6]">0% (Zero)</span>
+                            </div>
+                            <div class="flex items-center justify-between text-sm p-3 bg-white/5 rounded-lg border border-white/5">
+                                <span class="text-gray-300">IP Protection</span>
+                                <span class="font-bold text-white">AI Filtering</span>
+                            </div>
+                            <div class="flex items-center justify-between text-sm p-3 bg-white/5 rounded-lg border border-white/5">
+                                <span class="text-gray-300">Global Logistics</span>
+                                <span class="font-bold text-white">Integrated</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- PROPOSAL -->
-        <section id="proposal" class="py-32 px-6 md:px-24 bg-gradient-to-b from-black to-gray-900">
-            <div class="text-center mb-16">
-                <div class="inline-block px-6 py-2 bg-[#3B82F6]/10 border border-[#3B82F6] rounded-full text-[#3B82F6] font-bold text-xs mb-6">
-                    💡 STRATEGIC PROPOSAL
-                </div>
-                <h2 class="text-4xl md:text-6xl font-bold mb-4">
-                    <span class="text-weverse">Weverse by Fans 2.0</span>
-                </h2>
-                <p class="text-xl text-gray-400">C2C Asset Marketplace - 팬의 창작물을 위버스 자산으로</p>
+        <!-- FOOTER -->
+        <footer class="py-16 px-6 bg-[#050505] border-t border-white/5 text-center">
+            <h2 class="text-xl font-bold mb-6 text-white">위버스의 마지막 퍼즐이 되겠습니다.</h2>
+            <div class="flex justify-center gap-6 mb-10">
+                <a href="mailto:jiyeon.work.93@gmail.com" class="text-secondary hover:text-white transition-colors flex items-center gap-2">
+                    <i data-lucide="mail" width="16"></i> jiyeon.work.93@gmail.com
+                </a>
+                <span class="text-secondary">|</span>
+                <span class="text-secondary">010-7708-2417</span>
             </div>
-
-            <div class="glass-card p-12 max-w-5xl mx-auto">
-                <div class="grid md:grid-cols-3 gap-8 mb-12">
-                    <div class="text-center">
-                        <div class="text-5xl font-extrabold mb-2 text-weverse">150억</div>
-                        <div class="text-sm text-gray-400">추가 매출 목표</div>
-                    </div>
-                    <div class="text-center">
-                        <div class="text-5xl font-extrabold mb-2 text-weverse">0원</div>
-                        <div class="text-sm text-gray-400">재고 리스크</div>
-                    </div>
-                    <div class="text-center">
-                        <div class="text-5xl font-extrabold mb-2 text-weverse">25%</div>
-                        <div class="text-sm text-gray-400">영업이익률</div>
-                    </div>
-                </div>
-
-                <div class="space-y-6 text-gray-300">
-                    <div>
-                        <h3 class="text-xl font-bold mb-2 text-[#00D695]">📌 핵심 전략</h3>
-                        <p>팬 창작 2차 저작물(팬아트, 굿즈)을 위버스 공식 커머스에 연결하여 신뢰성과 편의성 제공</p>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-bold mb-2 text-[#3B82F6]">🎯 비즈니스 모델</h3>
-                        <ul class="list-disc list-inside space-y-1 text-sm">
-                            <li>위버스 수수료: 15% (일반 플랫폼 30% 대비 절반)</li>
-                            <li>저작권 협의 자동화 시스템</li>
-                            <li>Pre-order 재고 리스크 0원</li>
-                            <li>글로벌 배송 인프라 활용</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- NETWORK -->
-        <section id="network" class="py-32 px-6 md:px-24 bg-black">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl md:text-6xl font-bold mb-4">
-                    <span class="text-weverse">STRATEGIC NETWORK</span>
-                </h2>
-                <p class="text-xl text-gray-400">12년간 구축한 팬덤·콘텐츠 산업 네트워크</p>
-            </div>
-
-            <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                <div class="glass-card p-6">
-                    <h3 class="text-xl font-bold text-[#00D695] mb-4">Production & Tech</h3>
-                    <ul class="text-sm text-gray-400 space-y-2">
-                        <li>• 영상/음향 제작사 5곳</li>
-                        <li>• 무대/조명 기술팀 3곳</li>
-                        <li>• AI 아티스트 네트워크</li>
-                    </ul>
-                </div>
-                <div class="glass-card p-6">
-                    <h3 class="text-xl font-bold text-[#ff00aa] mb-4">Venue & Partners</h3>
-                    <ul class="text-sm text-gray-400 space-y-2">
-                        <li>• 수원문화재단</li>
-                        <li>• 성남시청 아동보육과</li>
-                        <li>• 대학 문화시설 다수</li>
-                    </ul>
-                </div>
-                <div class="glass-card p-6">
-                    <h3 class="text-xl font-bold text-[#bd00ff] mb-4">Creator & Fandom</h3>
-                    <ul class="text-sm text-gray-400 space-y-2">
-                        <li>• 12년 KPOP 팬덤 활동</li>
-                        <li>• 버추얼 IP 창작자</li>
-                        <li>• 팬아티스트 네트워크</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <!-- FULL GALLERY -->
-        <section class="py-32 px-6 md:px-24 bg-gradient-to-b from-gray-900 to-black">
-            <h2 class="text-4xl font-bold mb-12 text-center">
-                <span class="text-weverse">증빙 자료 갤러리</span>
-            </h2>
-            <p class="text-center text-gray-400 mb-16">31개 프로젝트 증빙 이미지</p>
-            
-            <div class="grid md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-7xl mx-auto">
-                <img src="https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/suwon-festival-01.jpg" class="w-full aspect-video object-cover rounded-xl glass-card">
-                <img src="https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/suwon-festival-02.jpg" class="w-full aspect-video object-cover rounded-xl glass-card">
-                <img src="https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/suwon-festival-03.jpg" class="w-full aspect-video object-cover rounded-xl glass-card">
-                <img src="https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/suwon-festival-04.jpg" class="w-full aspect-video object-cover rounded-xl glass-card">
-                <img src="https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/suwon-award.jpg" class="w-full aspect-video object-cover rounded-xl glass-card">
-                <img src="https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/suwon-sns-analytics.jpg" class="w-full aspect-video object-cover rounded-xl glass-card">
-                
-                <img src="https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/morang-01.png" class="w-full aspect-video object-cover rounded-xl glass-card">
-                <img src="https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/morang-kiln.jpg" class="w-full aspect-video object-cover rounded-xl glass-card">
-                <img src="https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/morang-kiln-production.jpg" class="w-full aspect-video object-cover rounded-xl glass-card">
-                <img src="https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/morang-dreampotter.jpg" class="w-full aspect-video object-cover rounded-xl glass-card">
-                <img src="https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/morang-horamic-01.jpg" class="w-full aspect-video object-cover rounded-xl glass-card">
-                
-                <img src="https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/kkojilland-01.jpg" class="w-full aspect-video object-cover rounded-xl glass-card">
-                <img src="https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/kkojilland-02.jpg" class="w-full aspect-video object-cover rounded-xl glass-card">
-                <img src="https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/kkojilland-03.jpg" class="w-full aspect-video object-cover rounded-xl glass-card">
-                
-                <img src="https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/baekho-elevator-01.png" class="w-full aspect-video object-cover rounded-xl glass-card">
-                <img src="https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/baekho-elevator-02.png" class="w-full aspect-video object-cover rounded-xl glass-card">
-                <img src="https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/baekho-elevator-03.png" class="w-full aspect-video object-cover rounded-xl glass-card">
-                <img src="https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/baekho-loveburn-01.png" class="w-full aspect-video object-cover rounded-xl glass-card">
-                <img src="https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/baekho-loveburn-02.png" class="w-full aspect-video object-cover rounded-xl glass-card">
-                <img src="https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/baekho-loveburn-03.png" class="w-full aspect-video object-cover rounded-xl glass-card">
-                <img src="https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/baekho-tinyriot-01.png" class="w-full aspect-video object-cover rounded-xl glass-card">
-                <img src="https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/baekho-tinyriot-02.png" class="w-full aspect-video object-cover rounded-xl glass-card">
-                <img src="https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/baekho-tinyriot-03.png" class="w-full aspect-video object-cover rounded-xl glass-card">
-                <img src="https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/baekho-whatarewe-01.png" class="w-full aspect-video object-cover rounded-xl glass-card">
-                <img src="https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/baekho-whatarewe-02.png" class="w-full aspect-video object-cover rounded-xl glass-card">
-                <img src="https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/baekho-whatarewe-03.png" class="w-full aspect-video object-cover rounded-xl glass-card">
-                
-                <img src="https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/university-artcafe-01.jpg" class="w-full aspect-video object-cover rounded-xl glass-card">
-                <img src="https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/university-artcafe-02.jpg" class="w-full aspect-video object-cover rounded-xl glass-card">
-                <img src="https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/university-concert.jpg" class="w-full aspect-video object-cover rounded-xl glass-card">
-                <img src="https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/university-forum-01.jpg" class="w-full aspect-video object-cover rounded-xl glass-card">
-                <img src="https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/university-forum-02.jpg" class="w-full aspect-video object-cover rounded-xl glass-card">
-                <img src="https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/university-team.jpg" class="w-full aspect-video object-cover rounded-xl glass-card">
-            </div>
-        </section>
-
-        <!-- CONTACT -->
-        <footer id="contact" class="py-20 px-6 bg-[#050505] text-center">
-            <h2 class="text-4xl font-bold mb-8">
-                <span class="text-weverse">위버스의 마지막 퍼즐이 되겠습니다</span>
-            </h2>
-            <p class="text-gray-400 mb-8">51만 명 무사고 · 재고 0원 · D-13 위기극복</p>
-            <a href="mailto:jiyeon.work.93@gmail.com" class="text-2xl font-bold text-gray-400 hover:text-[#00D695] transition">
-                jiyeon.work.93@gmail.com
-            </a>
+            <div class="text-[10px] text-gray-700 uppercase tracking-widest">© 2025 Kim Jiyeon. All rights reserved.</div>
         </footer>
+
     </main>
 
-    <!-- MODALS -->
-    <div id="modal-suwon" class="modal">
-        <div class="modal-content">
-            <button onclick="closeModal('suwon')" class="float-right text-4xl hover:text-[#00D695]">×</button>
-            <h2 class="text-4xl font-bold mb-8 text-[#00D695]">수원문화재단 - 51만 명 무사고 운영</h2>
-            <div class="grid md:grid-cols-2 gap-6 mb-8">
-                <img src="https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/suwon-festival-01.jpg" class="w-full rounded-xl">
-                <img src="https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/suwon-festival-04.jpg" class="w-full rounded-xl">
-            </div>
-            <div class="text-gray-300 space-y-4">
-                <p><strong class="text-[#00D695]">규모:</strong> 16일간 총 51만 명 관람객</p>
-                <p><strong class="text-[#00D695]">성과:</strong> 무사고 운영, ERR_402 1분 규명, SNS 55배 증가</p>
-                <p><strong class="text-[#00D695]">위기관리:</strong> 우천 민원, 소음 민원, 시스템 오류 즉각 대응</p>
+    <!-- MODAL POPUP -->
+    <div id="modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
+        <div class="absolute inset-0 bg-black/90 backdrop-blur-md" onclick="closeModal()"></div>
+        <div class="bg-[#121212] w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-2xl relative z-10 shadow-2xl border border-white/10 scrollbar-hide">
+            <button onclick="closeModal()" class="absolute top-6 right-6 p-2 bg-white/5 rounded-full hover:bg-white hover:text-black transition-colors z-20 text-white border border-white/10">
+                <i data-lucide="x" width="20"></i>
+            </button>
+            <div id="modal-content" class="p-8 md:p-12 text-white">
+                <!-- Content injected via JS -->
             </div>
         </div>
     </div>
 
-    <div id="modal-morang" class="modal">
-        <div class="modal-content">
-            <button onclick="closeModal('morang')" class="float-right text-4xl hover:text-[#ffae00]">×</button>
-            <h2 class="text-4xl font-bold mb-8 text-[#ffae00]">모랑공방 - 재고 0원 커머스 전략</h2>
-            <div class="grid md:grid-cols-2 gap-6 mb-8">
-                <img src="https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/morang-01.png" class="w-full rounded-xl">
-                <img src="https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/morang-kiln.jpg" class="w-full rounded-xl">
-            </div>
-            <div class="text-gray-300 space-y-4">
-                <p><strong class="text-[#ffae00]">매출:</strong> 3회 완판, 6,000만원</p>
-                <p><strong class="text-[#ffae00]">전략:</strong> Pre-order 모델, 재고 리스크 0원, ROI 300%</p>
-                <p><strong class="text-[#ffae00]">마케팅:</strong> RT 1,000 = 주문 100, 0원 광고비</p>
-            </div>
-        </div>
-    </div>
-
-    <div id="modal-kkojil" class="modal">
-        <div class="modal-content">
-            <button onclick="closeModal('kkojil')" class="float-right text-4xl hover:text-[#ff00aa]">×</button>
-            <h2 class="text-4xl font-bold mb-8 text-[#ff00aa]">꼬질랜드 - D-13 위기를 기회로</h2>
-            <div class="grid md:grid-cols-2 gap-6 mb-8">
-                <img src="https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/kkojilland-01.jpg" class="w-full rounded-xl">
-                <img src="https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/kkojilland-02.jpg" class="w-full rounded-xl">
-            </div>
-            <div class="text-gray-300 space-y-4">
-                <p><strong class="text-[#ff00aa]">위기:</strong> D-13 긴급 상황, 원래 4주 소요</p>
-                <p><strong class="text-[#ff00aa]">결과:</strong> 환불 0건, 만족도 95%, 방문 200% 증가</p>
-                <p><strong class="text-[#ff00aa]">전략:</strong> 팬 놀이문화로 재포지셔닝</p>
-            </div>
-        </div>
-    </div>
-
-    <div id="modal-baekho" class="modal">
-        <div class="modal-content">
-            <button onclick="closeModal('baekho')" class="float-right text-4xl hover:text-[#bd00ff]">×</button>
-            <h2 class="text-4xl font-bold mb-8 text-[#bd00ff]">백호 AI 아트 - 콘셉츄얼 아티스트</h2>
-            <div class="grid md:grid-cols-3 gap-4 mb-8">
-                <img src="https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/baekho-elevator-01.png" class="w-full rounded-xl">
-                <img src="https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/baekho-loveburn-01.png" class="w-full rounded-xl">
-                <img src="https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/baekho-tinyriot-01.png" class="w-full rounded-xl">
-            </div>
-            <div class="text-gray-300 space-y-4">
-                <p><strong class="text-[#bd00ff]">프로젝트:</strong> 뉴이스트 백호 솔로 4개 앨범</p>
-                <p><strong class="text-[#bd00ff]">작품:</strong> 12개 AI 아트워크</p>
-                <p><strong class="text-[#bd00ff]">역할:</strong> 콘셉츄얼 아티스트</p>
-            </div>
-        </div>
-    </div>
-
-    <div id="modal-university" class="modal">
-        <div class="modal-content">
-            <button onclick="closeModal('university')" class="float-right text-4xl hover:text-[#00ff9f]">×</button>
-            <h2 class="text-4xl font-bold mb-8 text-[#00ff9f]">추계예술대학교 - 디지털 혁신</h2>
-            <div class="grid md:grid-cols-2 gap-6 mb-8">
-                <img src="https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/university-artcafe-01.jpg" class="w-full rounded-xl">
-                <img src="https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/university-concert.jpg" class="w-full rounded-xl">
-            </div>
-            <div class="text-gray-300 space-y-4">
-                <p><strong class="text-[#00ff9f]">역할:</strong> 통합광고홍보 5학년 학생회</p>
-                <p><strong class="text-[#00ff9f]">프로젝트:</strong> 아트카페, 포럼, 대학축제 기획</p>
-            </div>
-        </div>
-    </div>
-
-    <script async src="https://platform.twitter.com/widgets.js"></script>
     <script>
         lucide.createIcons();
-        
-        // Three.js Background
+
+        /* --- 1. Three.js Background (Optimized) --- */
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ alpha: true });
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.getElementById('canvas-container').appendChild(renderer.domElement);
 
-        const particles = new THREE.BufferGeometry();
-        const count = 1200;
-        const positions = new Float32Array(count * 3);
-        const colors = new Float32Array(count * 3);
-        for(let i = 0; i < count; i++) {
-            positions[i*3] = (Math.random()-0.5)*20;
-            positions[i*3+1] = (Math.random()-0.5)*20;
-            positions[i*3+2] = (Math.random()-0.5)*20;
-            colors[i*3] = Math.random()>0.5?0:0.23;
-            colors[i*3+1] = Math.random()>0.5?0.84:0.51;
-            colors[i*3+2] = Math.random()>0.5?0.58:0.96;
+        const particlesGeometry = new THREE.BufferGeometry();
+        const particlesCount = 800;
+        const posArray = new Float32Array(particlesCount * 3);
+        const colorsArray = new Float32Array(particlesCount * 3);
+
+        for(let i = 0; i < particlesCount; i++) {
+            posArray[i * 3] = (Math.random() - 0.5) * 25;
+            posArray[i * 3 + 1] = (Math.random() - 0.5) * 25;
+            posArray[i * 3 + 2] = (Math.random() - 0.5) * 25;
+
+            const isMint = Math.random() > 0.5;
+            colorsArray[i * 3] = isMint ? 0 : 0.23;
+            colorsArray[i * 3 + 1] = isMint ? 0.84 : 0.51;
+            colorsArray[i * 3 + 2] = isMint ? 0.58 : 0.96;
         }
-        particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-        particles.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-        const material = new THREE.PointsMaterial({ size: 0.02, vertexColors: true, transparent: true, opacity: 0.6 });
-        const mesh = new THREE.Points(particles, material);
-        scene.add(mesh);
+
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colorsArray, 3));
+        
+        const particlesMaterial = new THREE.PointsMaterial({
+            size: 0.03,
+            vertexColors: true,
+            transparent: true,
+            opacity: 0.4,
+            blending: THREE.AdditiveBlending
+        });
+        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+        scene.add(particlesMesh);
         camera.position.z = 5;
+
+        let mouseX = 0, mouseY = 0;
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX / window.innerWidth - 0.5;
+            mouseY = e.clientY / window.innerHeight - 0.5;
+        });
 
         function animate() {
             requestAnimationFrame(animate);
-            mesh.rotation.y += 0.0005;
+            particlesMesh.rotation.y += 0.0003;
+            particlesMesh.rotation.x += (mouseY * 0.02 - particlesMesh.rotation.x) * 0.05;
+            particlesMesh.rotation.y += (mouseX * 0.02 - particlesMesh.rotation.y) * 0.05;
             renderer.render(scene, camera);
         }
         animate();
 
-        // Fade in animations
-        const observer = new IntersectionObserver(entries => {
-            entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        /* --- 2. Animations --- */
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
         }, { threshold: 0.1 });
+
         document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-        // Modal functions
+        /* --- 3. Dynamic Modal Content (Korean Content, English Keywords) --- */
+        const modalData = {
+            suwon: {
+                subtitle: 'RISK MANAGEMENT & OPERATION',
+                title: 'Traffic Control: 51만 명의 위기',
+                tags: ['Crisis Management', 'Tech Solving', 'Public Safety'],
+                desc: '<b>Situation:</b> 예상치 못한 51만 명의 인파로 결제 서버가 다운되는 초유의 사태 발생.<br><b>Action:</b> 개발팀 부재 상황에서 ChatGPT를 활용해 1분 만에 에러 로그를 분석, 원인을 규명하고 즉시 우회 결제망(QR/현금 분리)을 가동.<br><b>Result:</b> 매출 누락 0원, 민원 0건, 무사고 16일 달성으로 모범직원 표창 수상.',
+                images: ['https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/suwon-festival-01.jpg', 'https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/suwon-award.jpg', 'https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/suwon-sns-analytics.jpg']
+            },
+            morang: {
+                subtitle: 'DATA-DRIVEN COMMERCE',
+                title: 'Zero Inventory: 완판의 알고리즘',
+                tags: ['Demand Prediction', 'Lean Commerce', 'Pre-order'],
+                desc: '<b>Insight:</b> 굿즈 구매는 팬심이 고조되는 "타이밍"이 결정합니다.<br><b>Action:</b> 트위터 RT 급상승 구간(48시간)을 골든타임으로 설정하여 "선주문(Pre-order)" 시스템 도입. 단순 감이 아닌 데이터 기반 발주 진행.<br><b>Result:</b> 재고 폐기율 0%, 3회 연속 완판, ROI 300% 달성.',
+                images: ['https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/morang-01.png', 'https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/morang-kiln.jpg']
+            },
+            kkojil: {
+                subtitle: 'FANDOM ENGAGEMENT',
+                title: 'Gamification: 위기를 놀이로',
+                tags: ['Agile Planning', 'Viral Marketing', 'Risk Flipping'],
+                desc: '<b>Crisis:</b> 행사 D-13, 주최자 잠적 및 전면 취소 위기.<br><b>Action:</b> 팬들의 "불안감"을 "도박 같은 스릴"로 리프레이밍. 카지노 컨셉의 게이미피케이션 요소를 도입하여 위기를 엔터테인먼트로 전환.<br><b>Result:</b> 트위터 실시간 트렌드 1위, 팬 만족도 95%, "역대급 행사" 호평 획득.',
+                images: ['https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/kkojilland-01.jpg', 'https://k-hypecraft.github.io/ready-for-fandom-to-profit/images/kkojilland-02.jpg']
+            }
+        };
+
         function openModal(id) {
-            document.getElementById('modal-' + id).classList.add('active');
+            const data = modalData[id];
+            const content = `
+                <div class="flex flex-col gap-6">
+                    <div class="border-b border-white/10 pb-6">
+                        <div class="text-[#00D695] text-xs font-bold tracking-widest uppercase mb-2">${data.subtitle}</div>
+                        <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">${data.title}</h2>
+                        <div class="flex gap-2 flex-wrap">
+                            ${data.tags.map(tag => `<span class="px-3 py-1 rounded-full border border-white/10 bg-white/5 text-xs text-secondary">${tag}</span>`).join('')}
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="text-secondary leading-relaxed space-y-4">
+                            <p>${data.desc}</p>
+                            <div class="p-4 bg-white/5 rounded-lg border border-white/5 mt-4">
+                                <div class="text-white font-bold text-sm mb-2 flex items-center gap-2">
+                                    <i data-lucide="check-circle" width="16" class="text-[#00D695]"></i> Key Takeaway
+                                </div>
+                                <p class="text-xs text-gray-400">
+                                    단순 운영을 넘어, 데이터와 팬덤 심리를 읽고 비즈니스 성과로 연결하는 해결사(Solver) 역할을 수행했습니다.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            ${data.images.map(img => `
+                                <div class="aspect-video bg-black/40 rounded-lg overflow-hidden border border-white/5 relative group">
+                                    <img src="${img}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" alt="Evidence">
+                                    <div class="absolute bottom-2 right-2 bg-black/60 px-2 py-1 rounded text-[10px] text-white/70">증빙 자료</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.getElementById('modal-content').innerHTML = content;
+            document.getElementById('modal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
         }
-        function closeModal(id) {
-            document.getElementById('modal-' + id).classList.remove('active');
+
+        function closeModal() {
+            document.getElementById('modal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
         }
+        
+        document.addEventListener('keydown', (e) => {
+            if(e.key === 'Escape') closeModal();
+        });
     </script>
 </body>
 </html>
